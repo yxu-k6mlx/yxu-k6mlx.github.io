@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <script src="../../jquery-3.7.1.js"></script>
+    <script src="./clocks.js"></script>
+    <title>World Clocks</title>
+</head>
+
+<!-- Home Page Body -->
+<body>
+    <!-- Top Navbar-->
+    <nav class="navbar" role="navigation">
+        <div id="top_navbar" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="../readme.html">
+                    <strong>← Back to Projects</strong>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container">
+        <div class="block">
+            <h1 class="title is-1">World Clock</h1>
+            <hr>
+            <h3 class="title is-3">Today is <span id="today-date">{DATE}</span>, <span id="weekday">{WEEKDAY}</span>, local time. </h3>
+            
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th></th>
+                            <th>Hour</th>
+                            <th></th>
+                            <th>Minute</th>
+                            <th></th>
+                            <th>Second</th>
+                            <th></th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="Local Time">
+                        </tr>
+                        <tr id="UTC">
+                        </tr>
+                        <tr id="Beijing">
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script>
+    setInterval(clock, 1000); 
+</script>
+
+</html>
