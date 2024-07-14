@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
 
-    <script src="./jquery-3.7.1.js"></script> 
-
     <title>Calculator</title>
 </head>
 
@@ -17,16 +15,16 @@
     <nav class="navbar" role="navigation">
         <div id="top_navbar" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="./index.html">
+                <a class="navbar-item" href=".../index.html">
                     <strong>Home</strong>
                 </a>
-                <a class="navbar-item" href="./About/about.html">
+                <a class="navbar-item" href=".../About/about.html">
                     <strong>About</strong>
                 </a>
-                <a class="navbar-item" href="./Contact/contact.html">
+                <a class="navbar-item" href=".../Contact/contact.html">
                     <strong>Contact</strong>
                 </a>
-                <a class="navbar-item" href="./Projects/readme.html">
+                <a class="navbar-item" href=".../Projects/readme.html">
                     <strong>Projects</strong>
                 </a>
             </div>
@@ -46,35 +44,33 @@
 </body>
 
 <script>
-    function output_UTC_time(){
-        let time = new Date(); 
-        let year = "YYYY"; 
-        let month = "MM"; 
-        let day = "DD"; 
-        let hour = "hh"; 
-        let min = "mm"; 
-        let sec = "ss";
+    let time = new Date(); 
+    let year = "YYYY"; 
+    let month = "MM"; 
+    let day = "DD"; 
+    let hour = "hh"; 
+    let min = "mm"; 
+    let sec = "ss";
 
-        year = time.getUTCFullYear(); 
-        month = time.getUTCMonth(); 
-        day = time.getUTCDay(); 
-        hour = time.getUTCHours(); 
-        min = time.getUTCMinutes(); 
-        sec = time.getUTCSeconds(); 
+    year = time.getUTCFullYear(); 
+    month = time.getUTCMonth(); 
+    day = time.getUTCDay(); 
+    hour = time.getUTCHours(); 
+    min = time.getUTCMinutes(); 
+    sec = time.getUTCSeconds(); 
 
-        document.getElementById("client-year").innerHTML = ('000' + year).slice(-4); 
-        document.getElementById("client-month").innerHTML = ('0' + month).slice(-2); 
-        document.getElementById("client-day").innerHTML = ('0' + day).slice(-2); 
-        document.getElementById("client-hour").innerHTML = ('0' + hour).slice(-2); 
-        document.getElementById("client-min").innerHTML = ('0' + min).slice(-2); 
-        document.getElementById("client-second").innerHTML = ('0' + sec).slice(-2); 
+    document.getElementById("client-year").innerHTML = ('000' + year).slice(-4); 
+    document.getElementById("client-month").innerHTML = ('0' + month).slice(-2); 
+    document.getElementById("client-day").innerHTML = ('0' + day).slice(-2); 
+    document.getElementById("client-hour").innerHTML = ('0' + hour).slice(-2); 
+    document.getElementById("client-min").innerHTML = ('0' + min).slice(-2); 
+    document.getElementById("client-second").innerHTML = ('0' + sec).slice(-2); 
+
+    function refresh_time(id) {
+        document.getElementById(id).innerHTML = localStorage.getItem(id); 
     }
 
-    setInterval(output_UTC_time(), 1000); 
-
-    // https://stackoverflow.com/questions/8513032/less-than-10-add-0-to-number
-
-
+    setInterval(refresh_time('client-second'), 1000); 
 </script>
 
 </html>
