@@ -1,4 +1,5 @@
 const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
 function clock() {
     var time = new Date()
     var year = time.getFullYear(); 
@@ -22,17 +23,18 @@ function clock() {
 
     var utc_values = [time.getUTCFullYear(), time.getUTCMonth(), time.getUTCDate(), time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()]; 
     update_local_times("UTC", utc_values); 
+    update_local_times("Pacific", utc_values); 
+    update_local_times("Beijing", utc_values); 
 }
 
 function update_local_times(timezone, values){
-    if (timezone == "Local Time") {
-        values[2] = weekdays[values[2]]; 
+    if (timezone == "Local Time") { 
         document_updater(timezone, values); 
     }
     else {
         var offset = offset_lookup(timezone); 
         var new_values = offset_calculator(offset, values);
-        document_updater(timezone, values); 
+        document_updater(timezone, new_values); 
     }
 }
 
@@ -41,7 +43,6 @@ function document_updater(timezone, values){
     var local_hour = ('0' + values[3]).slice(-2); 
     var local_min = ('0' + values[4]).slice(-2); 
     var local_sec = ('0' + values[5]).slice(-2); 
-    var local_id = timezone; 
 
     var table_output = [
         local_day, "at", 
@@ -86,6 +87,7 @@ function offset_calculator(offset, values){
     var utc_month = values[1]; 
     var utc_day = values[2]; 
     var utc_hour = values[3]; 
+    console.log(utc_hour); 
     
     if (offset > 12 || offset < -12) {
         alert("The offset should not exceed 12 in absolute values. ");
@@ -93,11 +95,14 @@ function offset_calculator(offset, values){
     else if (offset > 0) {
     // We need to add hours
         var local_hour = utc_hour + offset; 
+        console.log(local_hour)
         if (local_hour > 23) {
             // We need to add another day
             var extra_hours = local_hour - 24; 
             local_hour = extra_hours; 
+            values[3] = local_hour; 
             var local_day = utc_day + 1; 
+
             if (utc_month == 12 && local_day > 31) {
                 var local_year = utc_year + 1; 
                 var local_month = 1; 
@@ -141,7 +146,6 @@ function offset_calculator(offset, values){
             
             values[1] = local_month; 
             values[2] = local_day; 
-            values[3] = local_hour; 
         }
         else {
             // We don't need to add days 
@@ -150,7 +154,7 @@ function offset_calculator(offset, values){
     }
     else if (offset < 0) {
         // We need to take away hours 
-        var local_hour = utc_hour + offset; 
+        var local_hour = utc_hour - offset; 
         if (local_hour < 0) {
             // We need to roll back 1 day
             var extra_hours = local_hour + 24; 
