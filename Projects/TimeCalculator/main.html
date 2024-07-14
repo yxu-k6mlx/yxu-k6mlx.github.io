@@ -15,17 +15,8 @@
     <nav class="navbar" role="navigation">
         <div id="top_navbar" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href=".../index.html">
-                    <strong>Home</strong>
-                </a>
-                <a class="navbar-item" href=".../About/about.html">
-                    <strong>About</strong>
-                </a>
-                <a class="navbar-item" href=".../Contact/contact.html">
-                    <strong>Contact</strong>
-                </a>
-                <a class="navbar-item" href=".../Projects/readme.html">
-                    <strong>Projects</strong>
+                <a class="navbar-item" href="../readme.html">
+                    <strong>← Back to Projects</strong>
                 </a>
             </div>
         </div>
@@ -37,40 +28,44 @@
             <hr>
             <div class="content">
                 <h3>Helpful information: </h3>
-                Your broswer think "now" means <span id="client-year">YYYY</span>-<span id="client-month">MM</span>-<span id="client-day">DD</span>T<span id="client-hour">HH</span>:<span id="client-min">MM</span>:<span id="client-second">SS</span>Z. 
+                <p>Your broswer last opened this page at <span id="client-year">YYYY</span>-<span id="client-month">MM</span>-<span id="client-day">DD</span>T<span id="client-hour">HH</span>:<span id="client-min">MM</span>:<span id="client-second">SS</span>Z. </p>
+                <p>It's now <span id="UTC-time">time</span>, <span id="second-counter">0</span> seconds after that. </p>
             </div>
         </div>
     </section>
 </body>
 
 <script>
-    let time = new Date(); 
-    let year = "YYYY"; 
-    let month = "MM"; 
-    let day = "DD"; 
-    let hour = "hh"; 
-    let min = "mm"; 
-    let sec = "ss";
+    var time = new Date(); 
+    var year = "YYYY"; 
+    var month = "MM"; 
+    var day = "DD"; 
+    var hour = "hh"; 
+    var min = "mm"; 
+    var sec = "ss";
+    var s = 0; 
+    function count() {
+        s = s + 1;
+        document.getElementById("second-counter").innerHTML = s; 
 
-    year = time.getUTCFullYear(); 
-    month = time.getUTCMonth(); 
-    day = time.getUTCDay(); 
-    hour = time.getUTCHours(); 
-    min = time.getUTCMinutes(); 
-    sec = time.getUTCSeconds(); 
+        time = new Date()
+        year = time.getUTCFullYear(); 
+        month = time.getUTCMonth(); 
+        day = time.getUTCDay(); 
+        hour = time.getUTCHours(); 
+        min = time.getUTCMinutes(); 
+        sec = time.getUTCSeconds(); 
 
-    document.getElementById("client-year").innerHTML = ('000' + year).slice(-4); 
-    document.getElementById("client-month").innerHTML = ('0' + month).slice(-2); 
-    document.getElementById("client-day").innerHTML = ('0' + day).slice(-2); 
-    document.getElementById("client-hour").innerHTML = ('0' + hour).slice(-2); 
-    document.getElementById("client-min").innerHTML = ('0' + min).slice(-2); 
-    document.getElementById("client-second").innerHTML = ('0' + sec).slice(-2); 
-
-    function refresh_time(id) {
-        document.getElementById(id).innerHTML = localStorage.getItem(id); 
+        document.getElementById("client-year").innerHTML = ('000' + year).slice(-4); 
+        document.getElementById("client-month").innerHTML = ('0' + month).slice(-2); 
+        document.getElementById("client-day").innerHTML = ('0' + day).slice(-2); 
+        document.getElementById("client-hour").innerHTML = ('0' + hour).slice(-2); 
+        document.getElementById("client-min").innerHTML = ('0' + min).slice(-2); 
+        document.getElementById("client-second").innerHTML = ('0' + sec).slice(-2); 
     }
 
-    setInterval(refresh_time('client-second'), 1000); 
+    setInterval(count, 1000); 
+
 </script>
 
 </html>
