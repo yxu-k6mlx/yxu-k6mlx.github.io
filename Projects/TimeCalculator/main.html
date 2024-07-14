@@ -28,7 +28,7 @@
             <hr>
             
             <div class="content">
-                <table class="table is-borderless">
+                <table>
                     <thead>
                         <tr>
                             <th>Year</th>
@@ -47,9 +47,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <div id="UTC-time"></div>
-                        </tr>
+                        <div id="UTC-time">
+
+                        </div>
                     </tbody>
                 </table>
             </div>
@@ -73,7 +73,7 @@
     }
 
     function update_local_times(timezone, year, month, day, hour, min, sec){
-        var values = {year, month, day, hour, min, sec}; 
+        var values = [year, month, day, hour, min, sec]; 
         if (timezone == "UTC") {
             document_updater(timezone, values); 
         } 
@@ -91,23 +91,23 @@
         var local_hour = ('0' + values[3]).slice(-2); 
         var local_min = ('0' + values[4]).slice(-2); 
         var local_sec = ('0' + values[5]).slice(-2); 
-        var local_id = timezone + "-time"
+        var local_id = timezone; 
 
-        document.getElementByClass(local_id) = (
-            "<td>" + local_year + "</td>" + 
-            "<td>-</td>" + 
-            "<td>" + local_month + "</td>" + 
-            "<td>-</td>" + 
-            "<td>" + local_day + "</td>" + 
-            "<td>T</td>" + 
-            "<td>" + local_hour + "</td>" + 
-            "<td>:</td>" + 
-            "<td>" + local_min + "</td>" + 
-            "<td>:</td>" + 
-            "<td>" + local_sec + "</td>" + 
-            "<td>@</td>" + 
-            "<td>" + timezone + "</td>"
-        )
+        var table_output = [
+            local_year, "-", 
+            local_month, "-", 
+            local_day, "T", 
+            local_hour, ":", 
+            local_min, ":", 
+            local_sec, "@", 
+            timezone]
+        
+        var table_html = "<tr>"
+        for (var i = 0; i < 13; i++) {
+            table_html = table_html + "<td>" + table_output[i] + "</td>"; 
+        }
+        table_html = table_html + "</tr>"; 
+        document.get("UTC-time").innerHTML = table_html; 
     }
 
     function offset_calculator(offset, values){
