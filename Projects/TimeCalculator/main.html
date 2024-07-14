@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
-
+    <script src="../../jquery-3.7.1.js"></script>
     <title>Calculator</title>
 </head>
 
@@ -47,9 +47,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div id="UTC-time">
-
-                        </div>
+                        <tr id="row0">
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -70,6 +69,7 @@
         
         var timezone = "UTC"
         update_local_times(timezone, year, month, day, hour, min, sec); 
+
     }
 
     function update_local_times(timezone, year, month, day, hour, min, sec){
@@ -102,12 +102,14 @@
             local_sec, "@", 
             timezone]
         
-        var table_html = "<tr>"
+        var row = $("#row0");
+        var table_html = ""; 
+
         for (var i = 0; i < 13; i++) {
             table_html = table_html + "<td>" + table_output[i] + "</td>"; 
         }
-        table_html = table_html + "</tr>"; 
-        document.get("UTC-time").innerHTML = table_html; 
+
+        row.replaceWith(table_html); 
     }
 
     function offset_calculator(offset, values){
