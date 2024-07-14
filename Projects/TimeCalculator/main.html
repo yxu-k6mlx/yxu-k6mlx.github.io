@@ -47,7 +47,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="row0">
+                        <tr id="UTC">
+                        </tr>
+                        <tr id="Pacific">
+                        </tr>
+                        <tr id="Beijing">
                         </tr>
                     </tbody>
                 </table>
@@ -67,9 +71,9 @@
         var min = time.getUTCMinutes(); 
         var sec = time.getUTCSeconds(); 
         
-        var timezone = "UTC"
-        update_local_times(timezone, year, month, day, hour, min, sec); 
-
+        update_local_times("UTC", year, month, day, hour, min, sec); 
+        update_local_times("Pacific", year, month, day, hour, min, sec); 
+        update_local_times("Beijing", year, month, day, hour, min, sec); 
     }
 
     function update_local_times(timezone, year, month, day, hour, min, sec){
@@ -102,14 +106,26 @@
             local_sec, "@", 
             timezone]
         
-        var row = $("#row0");
+        var row = document.getElementById(timezone);
         var table_html = ""; 
 
         for (var i = 0; i < 13; i++) {
             table_html = table_html + "<td>" + table_output[i] + "</td>"; 
         }
+        //table_html = table_html + "</tr>"; 
 
         row.replaceWith(table_html); 
+    }
+
+    function offset_lookup(timezone) {
+        switch (timezone){
+            case "Pacific": 
+                return -7; 
+            case "Beijing": 
+                return +8; 
+            default: 
+                return 0; 
+        }
     }
 
     function offset_calculator(offset, values){
