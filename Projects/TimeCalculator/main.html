@@ -82,9 +82,9 @@
             document_updater(timezone, values); 
         } 
         else {
-            var offset = offset_lookup(timezone); 
-            var new_values = offset_calculator(offset, values);
-            document_updater(timezone, new_values);  
+            // var offset = offset_lookup(timezone); 
+            // var new_values = offset_calculator(offset, values);
+            document_updater(timezone, values);  
         }
     }
 
@@ -106,17 +106,26 @@
             local_sec, "@", 
             timezone]
         
+        console.log(timezone); 
         var row = document.getElementById(timezone);
-        var table_html = ""; 
 
-        for (var i = 0; i < 13; i++) {
-            table_html = table_html + "<td>" + table_output[i] + "</td>"; 
+        if (row) {
+            var table_html = ""; 
+
+            for (var i = 0; i < 13; i++) {
+                table_html = table_html + "<td>" + table_output[i] + "</td>\n"; 
+            }
+            //table_html = table_html + "</tr>"; 
+
+            row.innerHTML = table_html; 
         }
-        //table_html = table_html + "</tr>"; 
+        else{
+            var str = timezone + "Timezone Row not found! \n"; 
+            console.log(str); 
+        }
 
-        row.replaceWith(table_html); 
     }
-
+    /*
     function offset_lookup(timezone) {
         switch (timezone){
             case "Pacific": 
@@ -127,7 +136,7 @@
                 return 0; 
         }
     }
-
+    
     function offset_calculator(offset, values){
         var utc_year = values[0]; 
         var utc_month = values[1]; 
@@ -269,7 +278,7 @@
             return true; 
         }
     }
-
+    */ 
     setInterval(count, 1000); 
 </script>
 
