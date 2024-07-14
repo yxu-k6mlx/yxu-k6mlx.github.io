@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Yanwen Xu/K6MLX's Homepage</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
-    </head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
 
-<!-- Top Navbar-->
-<nav class="navbar" role="navigation">
-    <div id="top_navbar" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="./index.html">
-                <strong>Home</strong>
-            </a>
-            <a class="navbar-item" href="./About/about.html">
-                <strong>About</strong>
-            </a>
-            <a class="navbar-item" href="./Contact/contact.html">
-                <strong>Contact</strong>
-            </a>
-        </div>
-    </div>
-</nav>
+    <script src="./jquery-3.7.1.js"></script> 
+    <script>
+        // Solution found at https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file 
+        $("#navbar").load("./navbar.html", 
+            function(){
+                alert("navbar loaded!");
+            }
+        ); 
+    </script>
+    <title>Yanwen Xu/K6MLX's Homepage</title>
+</head>
 
 <!-- Home Page Body -->
 <body>
+    <nav>
+        <div id="navbar"></div>
+    </nav>
     <div class="columns">
         <!-- Single Column Case -->
         <div class="column">
@@ -44,8 +40,11 @@
                             on <a href="https://www.carlaradio.net/">CARLA</a>, mostly when I'm driving. 
                         </p>
                         <p>
-                            This website is still undergoing active development, and will be for at least a while. 
+                            This website is still undergoing active development, and will be for at least a while.
                             You can take a look around this site by navigating through the navigation bar on top of the screen, or just scroll down to more postings like this one right on the homepage. 
+                        </p>
+                        <p>
+                            Mobile version of this site has not been throughly tested and will probably contain many bugs. Please proceed with caution. 
                         </p>
                     </div>
                 </div>
