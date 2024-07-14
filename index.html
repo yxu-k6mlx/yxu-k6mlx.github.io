@@ -7,23 +7,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
 
     <script src="./jquery-3.7.1.js"></script> 
-    <script>
-        // Solution found at https://stackoverflow.com/questions/8988855/include-another-html-file-in-a-html-file 
-        function include_navbar() {
-            $("#navbar").load("./navbar.html #navbar", 
-                function(){
-                    alert("navbar loaded!");
-                }
-            ); 
-        }
-    </script>
+
     <title>Yanwen Xu/K6MLX's Homepage</title>
 </head>
 
 <!-- Home Page Body -->
 <body>
     <nav>
-        <div id="navbar"></div>
+        <?php include "./navbar.html">
     </nav>
     <div class="columns">
         <!-- Single Column Case -->
@@ -54,7 +45,4 @@
         </div>
     </div>
 </body>
-<script>
-    include_navbar(); 
-</script>
 </html>
