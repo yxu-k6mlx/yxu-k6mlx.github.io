@@ -7,8 +7,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
 
     <script src="./jquery-3.7.1.js"></script> 
+    <script src="app.js"></script>
 
-    <title>Calculator</title>
+    <!-- BEGIN React JS imports -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- END React JS imports -->
+
+    <title>JS 五子棋</title>
 </head>
 
 <!-- Home Page Body -->
@@ -17,60 +25,21 @@
     <nav class="navbar" role="navigation">
         <div id="top_navbar" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href=".../index.html">
-                    <strong>Home</strong>
-                </a>
-                <a class="navbar-item" href=".../About/about.html">
-                    <strong>About</strong>
-                </a>
-                <a class="navbar-item" href=".../Contact/contact.html">
-                    <strong>Contact</strong>
-                </a>
-                <a class="navbar-item" href=".../Projects/readme.html">
-                    <strong>Projects</strong>
+                <a class="navbar-item" href="../readme.html">
+                    <strong>← Back to Projects</strong>
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- App Body -->
-    
+    <!--  -->
+    <section class="container">
+        <div class="columns">
+            <div class="column">
+
+            </div>
+        </div>
+    </section>
 </body>
-</html>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Hello World</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Don't use this in production: -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
-    <div id="root"></div>
-    <script type="text/babel">
-
-        function MyApp() {
-        return <h1>Hello, world!</h1>;
-        }
-
-        const container = document.getElementById('root');
-        const root = ReactDOM.createRoot(container);
-        root.render(<MyApp />);
-
-    </script>
-    <!--
-        Note: this page is a great way to try React but it's not suitable for production.
-        It slowly compiles JSX with Babel in the browser and uses a large development build of React.
-
-        Read this page for starting a new React project with JSX:
-        https://react.dev/learn/start-a-new-react-project
-
-        Read this page for adding React with JSX to an existing project:
-        https://react.dev/learn/add-react-to-an-existing-project
-    -->
-    </body>
 </html>
