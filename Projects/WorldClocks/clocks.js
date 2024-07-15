@@ -2,227 +2,105 @@ const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","S
 
 function clock() {
     var time = new Date()
-    var year = time.getFullYear(); 
-    var month = time.getMonth(); 
-    var day = time.getDate(); 
-    var hour = time.getHours(); 
-    var min = time.getMinutes(); 
-    var sec = time.getSeconds(); 
-
-    var display_year = ('000' + year).slice(-4); 
-    var display_month = ('0' + (month + 1)).slice(-2); 
-    var display_day = ('0' + day).slice(-2); 
     
-    var today_date = display_year + "-" + display_month + "-" + display_day; 
-
-    document.getElementById("today-date").innerHTML = today_date; 
-    document.getElementById("weekday").innerHTML = weekdays[time.getDay()]; 
-    
-    var values = [year, month, day, hour, min, sec]
-    update_local_times("Local Time", values); 
-
-    var utc_values = [time.getUTCFullYear(), time.getUTCMonth(), time.getUTCDate(), time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()]; 
-    update_local_times("UTC", utc_values); 
-    update_local_times("Pacific", utc_values); 
-    update_local_times("Beijing", utc_values); 
+    update_time("Local Time", time);
+    update_time("UTC Time", time); 
+    update_time("Pacific Daylight Time", time);
+    update_time("China Standard Time", time);
 }
 
-function update_local_times(timezone, values){
-    if (timezone == "Local Time") { 
-        document_updater(timezone, values); 
+function update_time(timezone, time){
+    if (timezone == "Local Time") {
+        var local_time_array = [time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds(), weekdays[time.getDay()]]; 
+        document_updater(timezone, local_time_array); 
     }
     else {
-        var offset = offset_lookup(timezone); 
-        var new_values = offset_calculator(offset, values);
-        document_updater(timezone, new_values); 
+        var local_time_array = time_calculator(timezone, time); 
+        document_updater(timezone, local_time_array); 
     }
 }
 
-function document_updater(timezone, values){
-    var local_day = values[2]; 
-    var local_hour = ('0' + values[3]).slice(-2); 
-    var local_min = ('0' + values[4]).slice(-2); 
-    var local_sec = ('0' + values[5]).slice(-2); 
+function document_updater(row_name, time_array){
+    var row_str = ""
+    var output_formatter = [
+        ("00" + time_array[0]).slice(-2), "at", ("00" + time_array[1]).slice(-2), ":", ("00" + time_array[2]).slice(-2), ":", ("00" + time_array[3]).slice(-2), "@", row_name
+    ]
 
-    var table_output = [
-        local_day, "at", 
-        local_hour, ":", 
-        local_min, ":", 
-        local_sec, "@", 
-        timezone]
-    
-    console.log(timezone); 
-    var row = document.getElementById(timezone);
-
-    if (row) {
-        var table_html = ""; 
-
-        for (var i = 0; i < 9; i++) {
-            table_html = table_html + "<td>" + table_output[i] + "</td>\n"; 
-        }
-        //table_html = table_html + "</tr>"; 
-
-        row.innerHTML = table_html; 
-    }
-    else{
-        var str = timezone + " row not found! \n"; 
-        console.log(str); 
+    for (var i = 0; i < 9; i ++){
+        row_str += "<td>" + output_formatter[i] + "</td>"; 
     }
 
+    document.getElementById(row_name).innerHTML = row_str; 
 }
 
-function offset_lookup(timezone) {
-    switch (timezone){
-        case "Pacific": 
-            return -7; 
-        case "Beijing": 
-            return +8; 
+/* 
+    params: 
+        timezone - String: name of the timezone in string 
+    return: 
+        time offset in mins 
+ */ 
+function offset_lookup(timezone){
+    switch (timezone) {
+        case ("UTC Time"): 
+            return 0; 
+        case ("Pacific Daylight Time"): 
+            return (-7 * 60);
+        case ("Pacific Standard Time"): 
+            return (-8 * 60); 
+        case ("Central Daylight Time"): 
+            return (-5 * 60);
+        case ("Central Standard Time"): 
+            return (-6 * 60);
+        case ("Eastern Daylight Time"): 
+            return (-4 * 60)
+        case ("Eastern Standard Time"): 
+            return (-5 * 60)
+        case ("China Standard Time"): 
+            return (+8 * 60); 
         default: 
             return 0; 
     }
 }
 
-function offset_calculator(offset, values){
-    var utc_year = values[0]; 
-    var utc_month = values[1]; 
-    var utc_day = values[2]; 
-    var utc_hour = values[3]; 
-    console.log(utc_hour); 
-    
-    if (offset > 12 || offset < -12) {
-        alert("The offset should not exceed 12 in absolute values. ");
-    }
-    else if (offset > 0) {
-    // We need to add hours
-        var local_hour = utc_hour + offset; 
-        console.log(local_hour)
-        if (local_hour > 23) {
-            // We need to add another day
-            var extra_hours = local_hour - 24; 
-            local_hour = extra_hours; 
-            values[3] = local_hour; 
-            var local_day = utc_day + 1; 
+/* 
+    params: 
+        timezone - String: name of the timezone in string 
+        utc_time - Date() object
+    return: 
+        an array of display elements 
+        [0  , 1 , 2  , 3  , 4           ]
+        [day, hr, min, sec, weekday(str)]
+ */ 
+function time_calculator(timezone, utc_time){
+    var local_time_array = [utc_time.getUTCDate(), utc_time.getUTCHours(), utc_time.getUTCMinutes(), utc_time.getUTCSeconds(), utc_time.getUTCDay()]; 
+    var local_offset_in_mins = offset_lookup(timezone); 
 
-            if (utc_month == 12 && local_day > 31) {
-                var local_year = utc_year + 1; 
-                var local_month = 1; 
-                local_day = local_day - 31; 
-                values[0] = local_year; 
-            }
-            else if (utc_month == 2 && get_leapyear(utc_year) && local_day > 29){
-                // It's Feb and Leap year
-                // Feb 29 -> Mar 1
-                var local_month = 3; 
-                local_day = local_day - 29; 
-            }
-            else if (utc_month == 2 && !(get_leapyear(utc_year)) && local_day > 28) {
-                // Feb but not leap
-                var local_month = 3; 
-                local_day = local_day - 28; 
-            }
-            else if (local_day > 31 && (
-                utc_month == 1 ||
-                utc_month == 3 ||
-                utc_month == 5 ||
-                utc_month == 7 ||
-                utc_month == 8 ||
-                utc_month == 10
-            )){
-                var local_month = utc_month + 1; 
-                local_day = local_day - 31; 
-            }
-            else if (local_day > 30 && (
-                utc_month == 4 ||
-                utc_month == 6 ||
-                utc_month == 9 ||
-                utc_month == 11
-            )){
-                var local_month = utc_month + 1; 
-                local_day = local_day - 30;
-            }
-            else {
-                var local_month = utc_month; 
-            }
-            
-            values[1] = local_month; 
-            values[2] = local_day; 
-        }
-        else {
-            // We don't need to add days 
-            values[3] = local_hour; 
-        }
-    }
-    else if (offset < 0) {
-        // We need to take away hours 
-        var local_hour = utc_hour - offset; 
-        if (local_hour < 0) {
-            // We need to roll back 1 day
-            var extra_hours = local_hour + 24; 
-            local_hour = extra_hours; 
-            var local_day = utc_day - 1; 
-            if (utc_month == 1 && local_day <= 0) {
-                var local_year = utc_year - 1; 
-                var local_month = 12; 
-                local_day = local_day + 31; 
-                values[0] = local_year; 
-            }
-            else if (utc_month == 3 && get_leapyear(utc_year) && local_day <= 0){
-                // It's March and Leap year
-                // Feb 29 <- Mar 1
-                var local_month = 2; 
-                local_day = local_day + 29; 
-            }
-            else if (utc_month == 3 && !(get_leapyear(utc_year)) && local_day <= 0) {
-                // Feb 28 <- Mar 1
-                var local_month = 2; 
-                local_day = local_day + 28; 
-            }
-            else if (local_day <= 0 && (
-                utc_month == 5 ||
-                utc_month == 7 ||
-                utc_month == 10
-            )){
-                var local_month = utc_month - 1; 
-                local_day = local_day + 30; 
-            }
-            else if (local_day <= 0 && (
-                utc_month == 2 ||
-                utc_month == 4 ||
-                utc_month == 6 ||
-                utc_month == 8 || 
-                utc_month == 9 ||
-                utc_month == 11
-            )){
-                var local_month = utc_month - 1; 
-                local_day = local_day + 31;
-            }
-            else {
-                var local_month = utc_month; 
-            }
-            
-            values[1] = local_month; 
-            values[2] = local_day; 
-            values[3] = local_hour; 
-        }
-        else {
-            // We don't need to roll back days 
-            values[3] = local_hour; 
-        }
+    var offset_mins = local_offset_in_mins % 60; 
+    var offset_hours = Math.floor(local_offset_in_mins / 60); 
 
-    }
-    return values; 
-}
+    local_time_array[1] += offset_hours; 
+    local_time_array[2] += offset_mins; 
 
-function get_leapyear(year){
-    if (year % 100 == 0) {
-        if (year % 400 == 0) {
-            return true; 
-        }
-        else {
-            return false; 
-        }
+    if (local_time_array[2] > 59) {
+        local_time_array[1] += 1; 
+        local_time_array[2] -= 60; 
     }
-    else if (year % 4 == 0) {
-        return true; 
+    else if (local_time_array[2] < 0){
+        local_time_array[1] -= 1; 
+        local_time_array[2] += 60; 
     }
+
+    if (local_time_array[1] > 23) {
+        local_time_array[0] += 1; 
+        local_time_array[4] += 1; 
+        local_time_array[1] -= 24; 
+    }
+    else if (local_time_array[1] < 0) {
+        local_time_array[0] -= 1; 
+        local_time_array[4] -= 1; 
+        local_time_array[1] += 24; 
+    }
+
+    local_time_array[4] = weekdays[local_time_array[4]]; 
+    return local_time_array; 
 }
