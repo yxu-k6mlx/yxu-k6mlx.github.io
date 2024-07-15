@@ -28,5 +28,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-  }
+  }, 
+  "homepage": "https://yxu-k6mlx.github.io/yxu-k6mlx"
 }
