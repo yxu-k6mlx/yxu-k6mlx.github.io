@@ -6,7 +6,10 @@ function clock() {
     update_time("Local Time", time);
     update_time("UTC Time", time); 
     update_time("Pacific Daylight Time", time);
+    update_time("Eastern Daylight Time", time)
     update_time("China Standard Time", time);
+    update_time("Pacific Standard Time", time);
+    update_time("Eastern Standard Time", time);
 }
 
 function update_time(timezone, time){
