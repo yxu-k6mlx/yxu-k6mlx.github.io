@@ -64,3 +64,5 @@ class ChessboardDriver():
             self.get_piece_by_location(row, col).set_owner(owner)
             print("play: New piece placed at (" + str(col) + ", " + str(row) + ") by " + str(owner))
             
+    def check_for_win(self): 
+        pass
