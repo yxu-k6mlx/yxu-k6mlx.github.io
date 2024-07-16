@@ -1,5 +1,6 @@
 class ChesspieceDriver():
-    def __init__(self, owner=None): 
+    def __init__(self, id, owner=None): 
+        self.id = id
         self.owner = owner
         
     def get_owner(self): 

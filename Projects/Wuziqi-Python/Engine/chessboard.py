@@ -1,30 +1,33 @@
 import chesspiece as piece 
 
 class ChessboardDriver(): 
-    def __init__(self, max_x, max_y, ui_board=None):
+    def __init__(self, max_y, max_x, ui_board=None):
         self.max_x = max_x 
         self.max_y = max_y
 
-        self.col = [None]*max_y
-        self.board = [self.col]*max_y
+        self.board = self.init_board() 
 
         self.ui_board = ui_board 
         self.is_won = False 
         self.winner = None
-        self.init_pieces() 
+        
 
     """
         Initiates the chessboard by placing invisible pieces on the slots
     """
-    def init_pieces(self): 
-        for y in range (self.max_y): 
-            for x in range(self.max_x): 
-                self.board[x][y] = piece.ChesspieceDriver(owner=None)
-                print("init: created a piece at (" + str(x) + ", " + str(y) + "). ")
-        return 
+    def init_board(self): 
+        id = 0
+        board = [None]*self.max_x
+        for i in range(self.max_x): 
+            board[i] = [None]*self.max_y 
+        
+        for i in range(self.max_x): 
+            for j in range(self.max_y): 
+                board[i][j] = piece.ChesspieceDriver(id=id, owner=None)
+                id += 1
+        return board
 
     def get_piece_by_location(self, x, y): 
-        print("Get: " + str(self.board[x][y]) + " returned")
         return self.board[x][y]
     
     """
@@ -33,10 +36,12 @@ class ChessboardDriver():
     """
     def print_board(self): 
         print("Here is your chessboard: \n")
+        x = 0
         y = 0
-        for y in range(self.max_y): 
-            col_str = str(y) + " "
-            for x in range(self.max_x): 
+        for x in range(self.max_x): 
+            col_str = str(x) + " "
+            for y in range(self.max_y): 
+                # col_str += str(self.get_piece_by_location(x, y).id) + " "
                 if (self.get_piece_by_location(x, y).get_owner() is not None): 
                     if (self.get_piece_by_location(x, y).get_owner() == "Black"): 
                         col_str += " X "
@@ -55,5 +60,5 @@ class ChessboardDriver():
         else: 
             # This spot is available 
             self.get_piece_by_location(x, y).set_owner(owner)
-            print("play: New piece placed at (" + str(x) + ", " + str(y) + ")")
+            print("play: New piece placed at (" + str(x) + ", " + str(y) + ") by " + str(owner))
             
