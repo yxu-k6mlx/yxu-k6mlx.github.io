@@ -20,39 +20,40 @@ class ChessboardDriver():
         for y in range (self.max_y): 
             for x in range(self.max_x): 
                 self.board[x][y] = piece.ChesspieceDriver(owner=None)
+                print("init: created a piece at (" + str(x) + ", " + str(y) + "). ")
         return 
 
     def get_piece_by_location(self, x, y): 
-        return self.board[x][y] 
+        print("Get: " + str(self.board[x][y]) + " returned")
+        return self.board[x][y]
     
     """
         Survey the whole board, and prints out a formatted board to console 
         X = Black, O = White, ? = No owner
     """
     def print_board(self): 
-        print("Here is your chessboard: (---> +y)\n")
-
-        for col in self.board: 
-            col_str = ""
-            for item in col: 
-                if (item.get_owner() is not None): 
-                    if (item.get_owner() == "Black"): 
-                        col_str = " X "
+        print("Here is your chessboard: \n")
+        y = 0
+        for y in range(self.max_y): 
+            col_str = str(y) + " "
+            for x in range(self.max_x): 
+                if (self.get_piece_by_location(x, y).get_owner() is not None): 
+                    if (self.get_piece_by_location(x, y).get_owner() == "Black"): 
+                        col_str += " X "
                     else: 
-                        col_str = " O "
+                        col_str += " O "
                 else: 
                     col_str = col_str + " ? "
             print(col_str)
-
+            y += 1
         return 
     
     def play(self, x, y, owner=None): 
-        if self.board[x][y].get_owner() is not None: 
+        if self.get_piece_by_location(x, y).get_owner() is not None: 
             # A piece has already been placed at (x, y) by a player
-            print("(Illegal Move) play: Place taken by " + self.get_piece_by_location(x, y).get_owner())
+            print("(Illegal Move by " + owner + ") play: (" + str(x) + ", " + str(y) + ") is already taken by " + self.get_piece_by_location(x, y).get_owner())
         else: 
             # This spot is available 
-            new_piece = piece.ChesspieceDriver(owner=owner)
-            self.board[x][y] = new_piece
+            self.get_piece_by_location(x, y).set_owner(owner)
             print("play: New piece placed at (" + str(x) + ", " + str(y) + ")")
             
