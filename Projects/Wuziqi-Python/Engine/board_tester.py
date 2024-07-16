@@ -17,6 +17,6 @@ if __name__ == "__main__":
     board.print_board()
 
     board.play(0, 1, owner="Black")
-    board.play(1, 0, owner="White")
+    board.play(4, 0, owner="White")
     board.print_board() 
     print("END OF PRINTOUT\n")

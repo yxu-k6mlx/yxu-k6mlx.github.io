@@ -53,12 +53,12 @@ class ChessboardDriver():
             y += 1
         return 
     
-    def play(self, x, y, owner=None): 
+    def play(self, y, x, owner=None): 
         if self.get_piece_by_location(x, y).get_owner() is not None: 
             # A piece has already been placed at (x, y) by a player
-            print("(Illegal Move by " + owner + ") play: (" + str(x) + ", " + str(y) + ") is already taken by " + self.get_piece_by_location(x, y).get_owner())
+            print("(Illegal Move by " + owner + ") play: (" + str(y) + ", " + str(x) + ") is already taken by " + self.get_piece_by_location(x, y).get_owner())
         else: 
             # This spot is available 
             self.get_piece_by_location(x, y).set_owner(owner)
-            print("play: New piece placed at (" + str(x) + ", " + str(y) + ") by " + str(owner))
+            print("play: New piece placed at (" + str(y) + ", " + str(x) + ") by " + str(owner))
             
