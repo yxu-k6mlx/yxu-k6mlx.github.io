@@ -2,62 +2,57 @@ import chesspiece as piece
 
 class ChessboardDriver(): 
     def __init__(self, max_x, max_y, ui_board=None):
-        self.rows = [None]*max_y
-        self.cells = [self.rows]*max_x
+        self.max_x = max_x 
+        self.max_y = max_y
+
+        self.col = [None]*max_y
+        self.board = [self.col]*max_y
+
         self.ui_board = ui_board 
         self.is_won = False 
         self.winner = None
-        self.place_pieces() 
+        self.init_pieces() 
 
-    def place_pieces(self): 
-        x = 0
-        y = 0
-        for row in self.cells: 
-            # for each row on the board
-            for col in self.rows: 
-                # and for each col in that row
-                self.cells[x][y] = piece.ChesspieceDriver(x, y, board=self, owner=None) # place a piece with no owner
-                x += 1 # goto next col
-            x = 0 # reset col index back to 0
-            y += 1 # goto next col
-        # reset indices back to 0 just to be safe
-        x = 0 
-        y = 0
+    """
+        Initiates the chessboard by placing invisible pieces on the slots
+    """
+    def init_pieces(self): 
+        for y in range (self.max_y): 
+            for x in range(self.max_x): 
+                self.board[x][y] = piece.ChesspieceDriver(owner=None)
         return 
 
-
     def get_piece_by_location(self, x, y): 
-        return self.cells[x][y] 
+        return self.board[x][y] 
     
     """
         Survey the whole board, and prints out a formatted board to console 
         X = Black, O = White, ? = No owner
     """
     def print_board(self): 
-        output_str = "" 
-        x = 0
-        y = 0
-        for row in self.cells: 
-            # for each row on the board
-            for col in self.rows: 
-                # and for each col in that row
-                if self.cells[x][y].get_owner() is not None: 
-                    if self.cells[x][y].get_owner() == "Black": 
-                        output_str = output_str + " X "
+        print("Here is your chessboard: (---> +y)\n")
+
+        for col in self.board: 
+            col_str = ""
+            for item in col: 
+                if (item.get_owner() is not None): 
+                    if (item.get_owner() == "Black"): 
+                        col_str = " X "
                     else: 
-                        output_str = output_str + " O "
+                        col_str = " O "
                 else: 
-                    output_str = output_str + " ? "
-                x += 1 # goto next col
-            output_str = output_str + "\n"
-            x = 0 # reset col index back to 0
-            y += 1 # goto next col
-        # reset indices back to 0 just to be safe
-        x = 0 
-        y = 0
-        print("Here is the chessboard: ")
-        print(output_str)
+                    col_str = col_str + " ? "
+            print(col_str)
+
         return 
     
-chessboard = ChessboardDriver(19, 19)
-chessboard.print_board() 
+    def play(self, x, y, owner=None): 
+        if self.board[x][y].get_owner() is not None: 
+            # A piece has already been placed at (x, y) by a player
+            print("(Illegal Move) play: Place taken by " + self.get_piece_by_location(x, y).get_owner())
+        else: 
+            # This spot is available 
+            new_piece = piece.ChesspieceDriver(owner=owner)
+            self.board[x][y] = new_piece
+            print("play: New piece placed at (" + str(x) + ", " + str(y) + ")")
+            
