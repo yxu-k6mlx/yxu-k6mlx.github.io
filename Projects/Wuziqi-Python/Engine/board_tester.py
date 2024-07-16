@@ -6,7 +6,7 @@ owner = "Black"
 
 if __name__ == "__main__": 
     print("BEGIN OF PRINTOUT\n")
-    board = chessboard.ChessboardDriver(5, 10) 
+    board = chessboard.ChessboardDriver(19, 19) 
     print("Chessboard created and filled with invisible pieces. \n")
     board.print_board() 
 
