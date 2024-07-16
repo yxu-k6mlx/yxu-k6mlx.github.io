@@ -1,6 +1,7 @@
 class ChesspieceDriver():
     def __init__(self, id, owner=None): 
         self.id = id
+        self.is_knot = False # for stylizing the board
         self.owner = owner
         
     def get_owner(self): 

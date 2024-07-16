@@ -1,4 +1,5 @@
 import chesspiece as piece 
+import sys 
 
 class ChessboardDriver(): 
     def __init__(self, max_col, max_row, ui_board=None):
@@ -6,10 +7,7 @@ class ChessboardDriver():
         self.max_row = max_row 
 
         self.board = self.init_board() 
-
         self.ui_board = ui_board 
-        self.is_won = False 
-        self.winner = None
         
 
     """
@@ -63,6 +61,126 @@ class ChessboardDriver():
             # This spot is available 
             self.get_piece_by_location(row, col).set_owner(owner)
             print("play: New piece placed at (" + str(col) + ", " + str(row) + ") by " + str(owner))
+        if (self.check_for_win()): 
+            winner = self.check_for_win() 
+            print(str(winner) + " won! ")
+            sys.exit(0)
+        self.print_board() 
+            
             
     def check_for_win(self): 
-        pass
+        for row in range(0, self.max_row): 
+            for col in range(2, self.max_col-2): 
+                won, winner = self.check_for_horizontal_link(row, col)
+                if (won): 
+                    return winner 
+        for row in range(2, self.max_row-2): 
+            for col in range(0, self.max_col): 
+                won, winner = self.check_for_vertical_link(row, col)
+                if (won):
+                    return winner
+        for row in range(2, self.max_row-2): 
+            for col in range(2, self.max_col-2): 
+                won, winner = self.check_for_corner_links_a(row, col)
+                if (won): 
+                    return winner
+                won, winner = self.check_for_corner_links_b(row, col)
+                if (won): 
+                    return winner 
+        return None
+
+    
+    def check_for_horizontal_link(self, origin_row, origin_col): 
+        white = 0
+        black = 0
+        for col in range(origin_col-2, origin_col+3): 
+            if (self.get_piece_by_location(origin_row, col).get_owner() == "Black"): 
+                black += 1
+            elif (self.get_piece_by_location(origin_row, col).get_owner() == "White"): 
+                white += 1
+            else: 
+                pass 
+
+        if (black == 5): 
+            return True, "Black" 
+        elif (white == 5): 
+            return True, "White"
+        else: 
+            return False, None
+        
+    def check_for_vertical_link(self, origin_row, origin_col): 
+        white = 0
+        black = 0
+        for row in range(origin_row-2, origin_row+3): 
+            if (self.get_piece_by_location(row, origin_col).get_owner() == "Black"): 
+                black += 1
+            elif (self.get_piece_by_location(row, origin_col).get_owner() == "White"): 
+                white += 1
+            else: 
+                pass 
+
+        if (black == 5): 
+            return True, "Black" 
+        elif (white == 5): 
+            return True, "White"
+        else: 
+            return False, None
+        
+    """
+    Checks for 
+    -2, -2 
+        -1, -1 
+            0, 0 
+                +1, +1
+                    +2, +2
+    links
+    """
+    def check_for_corner_links_a(self, origin_row, origin_col): 
+        white = 0
+        black = 0
+        
+        for d in range(-2, 3): 
+            bun = self.get_piece_by_location(origin_row+d, origin_col+d)
+            if (bun.get_owner() == "Black"): 
+                black += 1
+            elif (bun.get_owner() == "White"): 
+                white += 1
+            else: 
+                pass 
+
+        if (black == 5): 
+            return True, "Black" 
+        elif (white == 5): 
+            return True, "White"
+        else: 
+            return False, None
+        
+    """
+    Checks for 
+                    +2, +2
+                +1, +1 
+            0, 0
+        -1, -1
+    -2, -2 
+    links
+    """
+    def check_for_corner_links_b(self, origin_row, origin_col): 
+        white = 0
+        black = 0
+        
+        for d in range(-2, 3): 
+            bun = self.get_piece_by_location(origin_row+d, origin_col-d)
+            if (bun.get_owner() == "Black"): 
+                black += 1
+            elif (bun.get_owner() == "White"): 
+                white += 1
+            else: 
+                pass 
+
+        if (black == 5): 
+            return True, "Black" 
+        elif (white == 5): 
+            return True, "White"
+        else: 
+            return False, None
+
