@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.4" author="PygubuDesigner 0.39.3">
+  <project>
+    <settings />
+    <customwidgets />
+  </project>
+  <object class="tk.Tk" id="root" named="True">
+    <property name="geometry">1600x900</property>
+    <property name="height">200</property>
+    <property name="title" translatable="yes">Program</property>
+    <property name="width">200</property>
+  </object>
+</interface>
