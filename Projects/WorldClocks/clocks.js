@@ -1,7 +1,7 @@
 const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 function clock() {
-    var time = new Date()
+    const time = new Date()
     
     update_time("Local Time", time);
     update_time("UTC Time", time); 
@@ -14,22 +14,22 @@ function clock() {
 
 function update_time(timezone, time){
     if (timezone == "Local Time") {
-        var local_time_array = [time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds(), weekdays[time.getDay()]]; 
+        const local_time_array = [time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds(), weekdays[time.getDay()]]; 
         document_updater(timezone, local_time_array); 
     }
     else {
-        var local_time_array = time_calculator(timezone, time); 
+        const local_time_array = time_calculator(timezone, time); 
         document_updater(timezone, local_time_array); 
     }
 }
 
 function document_updater(row_name, time_array){
-    var row_str = ""
-    var output_formatter = [
+    const row_str = ""
+    const output_formatter = [
         ("00" + time_array[0]).slice(-2), "at", ("00" + time_array[1]).slice(-2), ":", ("00" + time_array[2]).slice(-2), ":", ("00" + time_array[3]).slice(-2), "@", row_name
     ]
 
-    for (var i = 0; i < 9; i ++){
+    for (const i = 0; i < 9; i ++){
         row_str += "<td>" + output_formatter[i] + "</td>"; 
     }
 
@@ -75,11 +75,11 @@ function offset_lookup(timezone){
         [day, hr, min, sec, weekday(str)]
  */ 
 function time_calculator(timezone, utc_time){
-    var local_time_array = [utc_time.getUTCDate(), utc_time.getUTCHours(), utc_time.getUTCMinutes(), utc_time.getUTCSeconds(), utc_time.getUTCDay()]; 
-    var local_offset_in_mins = offset_lookup(timezone); 
+    const local_time_array = [utc_time.getUTCDate(), utc_time.getUTCHours(), utc_time.getUTCMinutes(), utc_time.getUTCSeconds(), utc_time.getUTCDay()]; 
+    const local_offset_in_mins = offset_lookup(timezone); 
 
-    var offset_mins = local_offset_in_mins % 60; 
-    var offset_hours = Math.floor(local_offset_in_mins / 60); 
+    const offset_mins = local_offset_in_mins % 60; 
+    const offset_hours = Math.floor(local_offset_in_mins / 60); 
 
     local_time_array[1] += offset_hours; 
     local_time_array[2] += offset_mins; 
